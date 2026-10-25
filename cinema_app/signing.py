@@ -8,6 +8,7 @@ session revocation independently before granting access.
 """
 
 import base64
+import binascii
 from dataclasses import dataclass
 import hashlib
 import hmac
@@ -60,7 +61,7 @@ class CinemaSigner:
             return None
         try:
             decoded = base64.urlsafe_b64decode(encoded + "=" * (-len(encoded) % 4))
-        except (ValueError, base64.binascii.Error):
+        except (ValueError, binascii.Error):
             return None
         return decoded if CinemaSigner._encode(decoded) == encoded else None
 

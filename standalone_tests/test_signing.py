@@ -51,7 +51,8 @@ class IndependentSigningTests(unittest.TestCase):
                 token, guild_id=123, purpose="browser-session", now=1001
             )
         )
-        self.assertIsNone(signer.verify(token[:-1] + "0", guild_id=123, purpose="browser-session", now=1100))
+        changed = "0" if token[-1] != "0" else "1"
+        self.assertIsNone(signer.verify(token[:-1] + changed, guild_id=123, purpose="browser-session", now=1100))
         self.assertIsNone(signer.verify(token + ".", guild_id=123, purpose="browser-session", now=1100))
 
     def test_future_dated_or_overlong_tokens_rejected(self) -> None:
