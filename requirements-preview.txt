@@ -1,0 +1,2 @@
+# Development preview only. No torrent, Discord bot, database or media engine.
+aiohttp>=3.11,<4
