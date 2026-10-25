@@ -18,6 +18,6 @@ No private keys, tokens, PostgreSQL rows, runtime caches, media, torrent payload
 4. Keep torrent acquisition/download/seeding disabled pending provider and authorization review. Moving code to this repository is not a mechanism to conceal copyright-infringing traffic from Discloud.
 5. Independently validate builds, CI, startup/shutdown, auth, networking and operation on target hosting before activation.
 
-Two files couldn't be copied by the available GitHub operation and remain available in source commit: `docs/DANK_CINEMA_MEDIA_COMPATIBILITY.md` and `tests/test_movie_night_preferences.py`. Their omission must be addressed before claiming a complete migration.
+The two previously missing files, `docs/DANK_CINEMA_MEDIA_COMPATIBILITY.md` and `tests/test_movie_night_preferences.py`, are now included in this archival snapshot. They were transferred from the source commit with matching Git blob SHA hashes.
 
 See [extraction issue #1](https://github.com/UglyGameFace/Dank-Cinema/issues/1) for the paired Shield cutover and release gates.
