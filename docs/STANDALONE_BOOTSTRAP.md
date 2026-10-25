@@ -41,3 +41,18 @@ service be designed, with an independent deployment and verified data migration.
 To verify Dank Shield production is genuinely detached, separately follow
 `UglyGameFace/Dank-Shield/docs/CINEMA_SEPARATION_CUTOVER.md`; merging either
 repository does not stop a running host process.
+
+## Independent signing primitives (not yet exposed via HTTP)
+
+The preview-only project now includes `cinema_app.signing.CinemaSigner` to
+replace the old Cinema site's dependency on `DANK_TORRENT_STREAM_SECRET`.
+It requires a **separate** `CINEMA_SESSION_SIGNING_KEY` of at least 32 bytes;
+no legacy Shield or torrent secret fallback exists. The signer binds a short
+expiration, purpose, guild ID and user ID using HMAC-SHA256. Legacy links/cookies
+are deliberately incompatible, so a future migration needs explicit re-login.
+
+**A cryptographically signed token is not a permission check.** Before using
+a token to open a real session, the independent Cinema service must verify the
+Discord login, current guild membership and user permissions, use HttpOnly,
+Secure, SameSite cookies, and implement server-side revocation. No new login or
+stream route has been mounted in this PR. Never put signing keys in Git.
