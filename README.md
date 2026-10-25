@@ -21,3 +21,11 @@ No private keys, tokens, PostgreSQL rows, runtime caches, media, torrent payload
 The two previously missing files, `docs/DANK_CINEMA_MEDIA_COMPATIBILITY.md` and `tests/test_movie_night_preferences.py`, are now included in this archival snapshot. They were transferred from the source commit with matching Git blob SHA hashes.
 
 See [extraction issue #1](https://github.com/UglyGameFace/Dank-Cinema/issues/1) for the paired Shield cutover and release gates.
+
+## Independent bootstrap (non-production)
+
+A separate `cinema_app/` entrypoint now supports an opt-in, loopback-only, **offline**
+migration preview and read-only health endpoint. It deliberately does not import
+the historical Cinema/Shield code or enable media. See
+[`docs/STANDALONE_BOOTSTRAP.md`](docs/STANDALONE_BOOTSTRAP.md) for exact
+boundaries and remaining migration work. There is still **no production deploy**.
