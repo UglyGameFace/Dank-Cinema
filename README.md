@@ -29,3 +29,7 @@ migration preview and read-only health endpoint. It deliberately does not import
 the historical Cinema/Shield code or enable media. See
 [`docs/STANDALONE_BOOTSTRAP.md`](docs/STANDALONE_BOOTSTRAP.md) for exact
 boundaries and remaining migration work. There is still **no production deploy**.
+
+## Work in progress: Cinema-owned room state
+
+The independent `cinema_app.rooms` lifecycle now models public/private watch-party membership, a 20-person cap, host absence voting and idle expiry, with standalone tests. It is not wired to a public server or media backend. See [standalone bootstrap notes](docs/STANDALONE_BOOTSTRAP.md).
