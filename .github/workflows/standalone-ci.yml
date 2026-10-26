@@ -21,6 +21,10 @@ jobs:
           python-version: '3.11'
       - name: Install preview-only test dependencies
         run: python -m pip install -q -r requirements-preview.txt
+      - name: Install archived metadata test runner
+        run: python -m pip install -q pytest
+      - name: Test preserved media-metadata functionality
+        run: python -m pytest -q tests/test_media_metadata.py
       - name: Compile isolated application
         run: python -m compileall -q cinema_app
       - name: Verify disabled startup and no historical media routes
