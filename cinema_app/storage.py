@@ -42,16 +42,23 @@ class CinemaStorageConfig:
             raise CinemaStorageUnavailable(
                 "Cinema's independent database URL/service credentials are not configured"
             )
-        parsed = urlsplit(url)
+        try:
+            parsed = urlsplit(url)
+            parsed_port = parsed.port
+            host = parsed.hostname
+        except ValueError:
+            raise CinemaStorageUnavailable(
+                "Cinema database endpoint must be an HTTPS origin without credentials or path"
+            ) from None
         if (
             parsed.scheme != "https"
-            or not parsed.hostname
+            or not host
             or parsed.username
             or parsed.password
             or parsed.query
             or parsed.fragment
             or parsed.path not in ("", "/")
-            or not 1 <= (parsed.port or 443) <= 65535
+            or not 1 <= (parsed_port or 443) <= 65535
         ):
             raise CinemaStorageUnavailable(
                 "Cinema database endpoint must be an HTTPS origin without credentials or path"

@@ -38,6 +38,8 @@ class StorageConfigurationTests(unittest.TestCase):
             "https://cinema.example.net/rest/v1",
             "https://cinema.example.net?key=secret",
             "https://cinema.example.net/#fragment",
+            "https://cinema.example.net:notaport",
+            "https://[broken-ipv6",
             "not-a-url",
         ):
             with self.subTest(endpoint=endpoint):
