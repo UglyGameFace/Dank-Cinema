@@ -93,3 +93,31 @@ never forward bearer tokens to third-party domains.
 A proof is **not** role permission, current member revocation, private room
 authorization or media access. This does not add a live OAuth exchange or
 session route; those dependencies still require independent implementation.
+
+## Independent in-memory watch-party rooms (not public routes)
+
+`cinema_app.rooms.CinemaRooms` is a Cinema-owned state model and does not
+import Shield, fetch media, or contact Discord. The existing legacy room manager
+remains archived for reference; this is an independently testable replacement,
+not a drop-in production switch.
+
+- Supports public and invite-only rooms scoped to one guild/channel.
+- Caps active viewers at **20 total including the host**, private invitations
+  at 50, and concurrent rooms at 16 per server.
+- Requires the caller to provide a matching, previously verified
+  `DiscordGuildProof` before any room operation. That object is not itself a
+  tamper-proof credential: a future HTTP/Discord handler **must independently
+  revalidate** current user/guild/install, role privileges and revocation.
+- Host-only invite/revoke/end controls; duplicate joins do not consume slots.
+- When a host is absent, active viewers can vote to end, with strict majority
+  required. Stale viewers stop counting. Host re-entry restores control.
+- 120-second presence timeout and 30-minute empty-room expiry, triggered
+  **only by explicit maintenance calls**, with no background jobs.
+- State is process-local and **lost on restart**. It does not synchronize
+  multiple workers, stream media, persist rooms, authenticate Discord users,
+  authorize player access, or expose HTTP routes.
+
+Before activation, integrate authoritative Discord OAuth and permission checks,
+durable/atomic shared storage, room event propagation, user-visible room and
+player controls, and a licensed-media source policy. Standalone unit tests cover
+room isolation, invites, caps, lifecycle and fail-closed behavior.
