@@ -1,0 +1,25 @@
+# Optional local-only Jellyfin reference, not a production Dank Cinema deployment.
+# Requires Docker Compose on a host controlled by the operator.
+name: dank-cinema
+
+networks:
+  cinema_backend:
+    driver: bridge
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    profiles: ["local-media"]
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      TZ: "${TZ:-America/New_York}"
+    ports:
+      - "127.0.0.1:${JELLYFIN_LOCAL_PORT:-8096}:8096"
+    volumes:
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      - ${CINEMA_MEDIA_PATH:-./media}:/media:ro
+    networks:
+      - cinema_backend
