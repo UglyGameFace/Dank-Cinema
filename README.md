@@ -44,3 +44,7 @@ An **opt-in local Jellyfin-only** Compose profile is available at
 uses a read-only media volume. It is **not** the operational watch-party stack.
 The independent Cinema app/bot and any authorized media acquisition have not
 been deployed; existing Discloud incident restrictions remain in effect.
+
+## Work in progress: Cinema-owned room state
+
+The independent `cinema_app.rooms` lifecycle now models public/private watch-party membership, a 20-person cap, host absence voting and idle expiry, with standalone tests. It is not wired to a public server or media backend. See [standalone bootstrap notes](docs/STANDALONE_BOOTSTRAP.md).
