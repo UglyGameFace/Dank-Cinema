@@ -79,3 +79,17 @@ Before production operation, provision a genuinely independent database,
 validate schema and row ownership, inspect data retention, explicitly approve
 and back up any migration, and implement revoked-session and current Discord
 guild authorization checks before serving member data.
+
+## Standalone Discord user / guild proof (not wired to public routes)
+
+`cinema_app.discord_identity` compares Discord OAuth user identity from
+`/users/@me` (scope `identify`) and a user's exact guild membership from
+`/users/@me/guilds` (scope `guilds`) against a separately established
+Cinema app-installation list. Missing scope/transport data, identity mismatch,
+or incomplete membership lists fail closed. Fetch transport must target the
+official Discord API using HTTPS, enforce timeouts and rate limits, and must
+never forward bearer tokens to third-party domains.
+
+A proof is **not** role permission, current member revocation, private room
+authorization or media access. This does not add a live OAuth exchange or
+session route; those dependencies still require independent implementation.
