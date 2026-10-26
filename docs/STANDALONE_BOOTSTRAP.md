@@ -56,3 +56,26 @@ a token to open a real session, the independent Cinema service must verify the
 Discord login, current guild membership and user permissions, use HttpOnly,
 Secure, SameSite cookies, and implement server-side revocation. No new login or
 stream route has been mounted in this PR. Never put signing keys in Git.
+
+## Cinema-owned database adapter (not connected to production)
+
+The independent `cinema_app.storage` module replaces the old module's direct
+dependency on `stoney_verify.globals.get_supabase`. It has **no** implicit
+Shield/database fallback. It requires a Cinema-specific HTTPS origin and
+service credential (`CINEMA_SUPABASE_URL` and
+`CINEMA_SUPABASE_SERVICE_ROLE_KEY`), and a separately supplied client factory.
+
+The application preview never constructs a database client or uses the key.
+The adapter intentionally distinguishes read and write operations: idempotent
+reads may retry one transport failure, while writes are never blindly retried
+because the server might already have committed the first attempt. Error
+messages suppress underlying response bodies and credentials. Four concurrent
+requests is the configured internal limit for the adapter.
+
+**This is an interface, not a completed data migration.** There is no live
+database connection, data export, schema mutation, or use of Shield's
+production Supabase credentials. Archived tables are only reference contracts.
+Before production operation, provision a genuinely independent database,
+validate schema and row ownership, inspect data retention, explicitly approve
+and back up any migration, and implement revoked-session and current Discord
+guild authorization checks before serving member data.
