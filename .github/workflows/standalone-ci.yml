@@ -25,6 +25,8 @@ jobs:
         run: python -m compileall -q cinema_app
       - name: Verify disabled startup and no historical media routes
         run: python -m unittest discover -s standalone_tests -v
+      - name: Validate opt-in local Jellyfin Compose profile
+        run: docker compose -f ops/compose.yaml --profile local-media config --quiet
       - name: Confirm no deployment entrypoint was introduced
         run: |
           test ! -f discloud.config
