@@ -1,0 +1,20 @@
+# Standalone Cinema runtime secrets (never commit).
+.env
+.env.*
+!.env.example
+ops/.env
+ops/.env.*
+!ops/.env.example
+providers/*.env
+gluetun/**/client.key
+gluetun/**/client.crt
+wireguard/*.conf
+**/qbit-config/
+**/bot-data/
+**/jf-config/
+ops/jellyfin/
+ops/media/
+ops/data/
+__pycache__/
+*.py[cod]
+.pytest_cache/
