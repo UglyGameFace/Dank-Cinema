@@ -48,3 +48,10 @@ been deployed; existing Discloud incident restrictions remain in effect.
 ## Work in progress: Cinema-owned room state
 
 The independent `cinema_app.rooms` lifecycle now models public/private watch-party membership, a 20-person cap, host absence voting and idle expiry, with standalone tests. It is not wired to a public server or media backend. See [standalone bootstrap notes](docs/STANDALONE_BOOTSTRAP.md).
+
+## Independent Discord login groundwork
+
+The Cinema-owned [OAuth authorization-code and guild proof handshake](docs/DISCORD_OAUTH_HANDSHAKE.md)
+uses one-time browser-bound state and PKCE, with no Dank Shield token reuse.
+It is an offline-tested security component only; no public login endpoint,
+Discord installation automation or playback deployment has been activated.
